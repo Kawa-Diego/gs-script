@@ -19,8 +19,6 @@ function getToken() {
 
 
 
-
-
 function getRefreshToken() {
   let credentials = Utilities.base64Encode(clientId + ':' + clientSecret);
   let options = {
