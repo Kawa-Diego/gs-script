@@ -65,6 +65,9 @@ Você irá criar cabeçalhos com os nomes das variáveis clientId e clientSecret
 
 # Configuração de variáveis globais
 
+Iremos utilizar a ferramenta Google Scripts, localizado logo abaixo o nome da sua panilha:
+<img width="762" height="122" alt="image" src="https://github.com/user-attachments/assets/869221df-96ed-4a87-9ee0-a12e8f438928" /><br>
+
 Iniciando, vamos primeiro atribuir valores às variáveis em [`global.gs`](https://github.com/Kawa-Diego/gs-script/blob/main/global.gs).
 <br>
 
@@ -104,4 +107,14 @@ Exemplo:
 
 <br>
 
-Adendo: o resultado padrão de quantidade de produtos poderá sair como: <saldoVirtualTotal>. Então, foi criado um método if - else para retornar apenas o valor numérico dele.
+Adendo: o resultado padrão de quantidade de produtos poderá sair como: <saldoVirtualTotal>. Então, foi criado um método if - else para retornar apenas o valor numérico dele.<br>
+
+Para automatizar a função, você deverá, dentro da página de scripts, entrar na aba de Acionadores.
+<img width="275" height="288" alt="image" src="https://github.com/user-attachments/assets/f0a7bc1c-089f-44ee-80ee-4f6cf3bc5285" /><br>
+Clique em `Adicionar acionador`
+<img width="319" height="138" alt="image" src="https://github.com/user-attachments/assets/4a5046bb-a17a-4dc3-8254-0659872c2788" /><br>
+
+Insira as informações a seguir:
+<img width="728" height="779" alt="image" src="https://github.com/user-attachments/assets/61d00e9a-c0fe-49dc-925b-3e0ee46abc02" /><br />
+
+Desta maneira, a função `getMultiplosProdutos` será acionado automaticamente a cada 1 hora, atualizando novos dados, caso existam.
