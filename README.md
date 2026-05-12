@@ -56,22 +56,52 @@ Esta será a base para armazenar nossos dados: Id do produto, Nome valor, quanti
 <img width="1557" height="46" alt="image" src="https://github.com/user-attachments/assets/c40cec1c-44cc-4470-8557-975841aa1888" />
 <br>
 
-Você deve armazenar em outra página desta panilha os Id's coletados da sua [aplicação](https://github.com/Kawa-Diego/gs-script/new/main?filename=README.md#iniciando-as-configura%C3%A7%C3%B5es)
+Você deve armazenar em outra página desta panilha os Id's coletados da sua aplicação
+Clique na opção localizada no canto inferior esquerdo da página e clique no ícone (` + `)
 
+Você irá criar cabeçalhos com os nomes das variáveis clientId e clientSecret, e armazenar os dados que você copiou, como instruído em [Iniciando as configurações](https://github.com/Kawa-Diego/gs-script/blob/main/README.md#iniciando-as-configurações)
+<br />
+<br />
 
+# Configuração de variáveis globais
 
-# Instruções de uso do código e funções
+Iniciando, vamos primeiro atribuir valores às variáveis em [`global.gs`](https://github.com/Kawa-Diego/gs-script/blob/main/global.gs).
+<br>
 
+ - `clientId` e `clientSecret` você vai inserir os mesmos dados que você salvou na panilha. `globalUrl` é o link da API de produtos da Bling. <br>
+ - A variável `sheetConfig` irá se conectar com a página de configuração dos client's dentro da sua panilha. Atribua o nome da página dentro de (''). O mesmo vale para `sheetProdutos`.<br>
+ - Em `acessToken` e `refreshToken` (valor resgatado na próxima seção), as variáveis se conectam com a linha 2 da sua página na panilha, e as atualiza conforme a função for chamada.
+<br />
 
+# Autenticação <br />
+ 
+ ## getToken
+ A função `getToken()` irá informar dentro do servidor as variáveis informadas conforme seus valores válidos. Para iniciar e retornar o primeiro refreshToken de sua aplicação, você deve abrir o link de convite    informado em [Inciando as configurações](https://github.com/Kawa-Diego/gs-script/blob/main/README.md#iniciando-as-configurações).<br/>
+  Você irá informar o código que irá aparecer dentro da barra de pesquisa na url do site, sendo informado logo após "code=exABCDEFGHI". O código deve ser copiado até antes de `&`.
+<br />
+  Ao ser solicitado: `BLING_OAUTH_TOKEN_API`, você deverá informar: "https://www.bling.com.br/Api/v3/oauth/token". <br />
+  Rodando com êxito, e imprimindo o resultado no console, você conseguira seus valores de accessToken e um novo refreshToken. Armazene estes valores na panilha em `__acessToken_` e `__refreshToken_`.
+<br />
 
-  A crendencial globalUrl aprensetada, refere-se a API de busca do próprio Bling, documentado em [Produtos](https://developer.bling.com.br/referencia#/Produtos)
-  A string que armazena
-  
-    Guia:
-     - API_BLING_OAUTH_API = api oficial de rota de autenticação do Bling;
-     - REFRESH_TOKEN = primeiro token retornado ao realizar a busca via método HTTP - POST;
-     - 
-     
-## Autenticação 
+# Produtos <br />
 
-A função [`getToken`](https://github.com/Kawa-Diego/gs-script/blob/main/Autenticacao.gs) realiza a busca de um refreshToken
+ ## getProducts()
+  Sempre que for chamar alguma função, deve fazer um callback de `refreshToken()` para atualizar os tokens e mantê-los sempre ativos.
+  <br />
+  <br>
+  A primeira função `getProducts()` irá fazer um map, ou seja, um laço de repetição dentro de um JSON __data:{}_ que estará armazenando os dados necessários. Assim, irá 'pegar' a linha da panilha que seus respectivos nomes estão (getRange()), percorrendo de A, até a linha que você for utilizar, indo "de cima para baixo" utilizando um método *row*, e 'atribuir' valores a eles (setValues()).
+<br>
+  Existe um pequeno porém. O Bling permite, por padrão, retornar apenas 100 produtos por requisição. <br>
+  Para contornar este problema, utilizaremos a próxima função.
+<br />
+<br>
+
+## getMultiplosProdutos()
+A função `getMultiplosProdutos()` tem a mesma finalidade que a função anterior. Entretanto, com um laço de repetição **while**, ele consegue percorrer e ir adiante, passando por páginas e retornando a quantidade de produtos em cada uma, retornando o total de produtos final dentro da panilha. <br>
+
+Exemplo: 
+- Se uma loja possui 400 produtos, o método padrão (getProducts()) retornaria apenas os 100 primeiros produtos. Já com o método getMultiplosProdutos(), ele vai passando e verificando a quantidade de páginas e a quantidade de produtos nelas, retornando o resultado final dentro da panilha. <br>
+
+<br>
+
+Adendo: o resultado padrão de quantidade de produtos poderá sair como: <saldoVirtualTotal>. Então, foi criado um método if - else para retornar apenas o valor numérico dele.
